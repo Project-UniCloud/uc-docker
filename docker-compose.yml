@@ -1,0 +1,43 @@
+services:
+  database-postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: unicloud
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - uc-network
+  backend:
+    build:
+      context: ../uc-backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - uc-network
+    depends_on:
+      - db
+  frontend:
+    build:
+      context: ../uc-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - uc-network
+  adapter-aws:
+    build:
+      context: ../uc-adapter-aws
+      dockerfile: Dockerfile
+    ports:
+      - "50051:50051"
+    networks:
+      - uc-network
+
+volumes:
+  db-data:
+
+networks:
+  uc-network:
