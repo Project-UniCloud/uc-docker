@@ -18,7 +18,7 @@ services:
     networks:
       - uc-network
     depends_on:
-      - db
+      - database-postgres
   frontend:
     build:
       context: ../uc-frontend
