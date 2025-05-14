@@ -18,8 +18,8 @@ But docker engine with docker compose is enough.
 2. Clone repositories
     ```shell
     git clone https://github.com/Project-UniCloud/uc-frontend
-    git clone https://github.com/Project-UniCloud/uc-backend
-    git clone https://github.com/Project-UniCloud/uc-adapter-aws
+    git clone --recurse-submodules https://github.com/Project-UniCloud/uc-backend
+    git clone --recurse-submodules https://github.com/Project-UniCloud/uc-adapter-aws
     git clone https://github.com/Project-UniCloud/uc-docker
     ```
 3. Go to uc-docker project
