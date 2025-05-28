@@ -24,17 +24,13 @@ services:
       JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
       POSTGRES_HOST: database-postgres
   frontend:
-    build:
-      context: ../uc-frontend
-      dockerfile: Dockerfile
+    image: ghcr.io/project-unicloud/uc-frontend:latest
     ports:
       - "3000:3000"
     networks:
       - uc-network
   adapter-aws:
-    build:
-      context: ../uc-adapter-aws
-      dockerfile: Dockerfile
+    image: ghcr.io/project-unicloud/uc-adapter-aws:latest
     ports:
       - "50051:50051"
     networks:
