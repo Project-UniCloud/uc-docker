@@ -1,8 +1,9 @@
-name: Build and Release Webhook
+name: Build and Release Webhook-Restart
 
 on:
   push:
-    branches: [ main ]
+    tags:
+      - "v*"
 
 jobs:
   build:
@@ -22,12 +23,12 @@ jobs:
       - name: Build binary (Linux AMD64)
         run: |
           mkdir -p dist
-          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o dist/webhook ./restart-webhook/main.go
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o dist/webhook-restart ./restart-webhook/main.go
 
       - name: Generate SHA256 checksum
         run: |
           cd dist
-          sha256sum webhook > webhook.sha256
+          sha256sum webhook-restart > webhook-restart.sha256
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -35,5 +36,5 @@ jobs:
           name: Release ${{ github.ref_name }}
           tag_name: ${{ github.ref_name }}
           files: |
-            dist/webhook
-            dist/webhook.sha256
+            dist/webhook-restart
+            dist/webhook-restart.sha256
