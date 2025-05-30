@@ -1,9 +1,11 @@
 unicloud.projektstudencki.pl {
-  @restartWebhook path /restart-webhook*
-  reverse_proxy @restartWebhook localhost:3001
+    route /api* {
+        reverse_proxy localhost:8080
+    }
 
-  @api path /api/*
-  reverse_proxy @api backend:8080
+    route /restart-webhook* {
+        reverse_proxy localhost:3001
+    }
 
-  reverse_proxy / frontend:3000
+    reverse_proxy localhost:3000
 }
