@@ -10,7 +10,7 @@ services:
 
   uc-frontend:
     environment:
-      NEXT_PUBLIC_API_URL: "https://unicloud.projektstudencki.pl/api"
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
 
 networks:
   uc-network:
