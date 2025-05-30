@@ -1,5 +1,5 @@
 services:
-  backend:
+  uc-backend:
     container_name: uc-backend
     pull_policy: always
     image: ghcr.io/project-unicloud/uc-backend:latest
@@ -7,7 +7,7 @@ services:
       - "8080:8080"
     networks:
       - uc-network
-  frontend:
+  uc-frontend:
     container_name: uc-frontend
     pull_policy: always
     image: ghcr.io/project-unicloud/uc-frontend:latest
@@ -15,7 +15,7 @@ services:
       - "3000:3000"
     networks:
       - uc-network
-  adapter-aws:
+  uc-adapter-aws:
     container_name: uc-adapter-aws
     image: ghcr.io/project-unicloud/uc-adapter-aws:latest
     pull_policy: always
