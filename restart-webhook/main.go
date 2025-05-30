@@ -26,9 +26,9 @@ func init() {
 }
 
 var allowedServices = map[string]bool{
-	"backend":  true,
-	"frontend": true,
-	"adapter":  true,
+	"backend":     true,
+	"frontend":    true,
+	"adapter-aws": true,
 }
 
 func runCommand(cmd *exec.Cmd) error {
@@ -68,24 +68,26 @@ func restartHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	composeFile := repoDir + "/docker-compose.dev.yml"
+	envFile := repoDir + "/.env"
+	composeFile := repoDir + "/docker-compose.yml"
+	devComposeFile := repoDir + "/docker-compose.dev.yml"
+
+	baseArgs := []string{
+		"--preserve-env", "docker", "compose",
+		"--env-file", envFile,
+		"-f", composeFile,
+		"-f", devComposeFile,
+	}
 
 	// docker compose down [service]
-	cmdDown := exec.Command("docker", "compose", "-f", composeFile, "down", service)
+	cmdDown := exec.Command("sudo", append(baseArgs, "down", service)...)
 	if err := runCommand(cmdDown); err != nil {
 		http.Error(w, "Docker down failed: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// docker compose pull [service]
-	cmdPull := exec.Command("docker", "compose", "-f", composeFile, "pull", service)
-	if err := runCommand(cmdPull); err != nil {
-		http.Error(w, "Docker pull failed: "+err.Error(), http.StatusInternalServerError)
-		return
-	}
-
 	// docker compose up -d [service]
-	cmdUp := exec.Command("docker", "compose", "-f", composeFile, "up", "-d", service)
+	cmdUp := exec.Command("sudo", append(baseArgs, "up", "-d", service)...)
 	if err := runCommand(cmdUp); err != nil {
 		http.Error(w, "Docker up failed: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -96,7 +98,7 @@ func restartHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/restart-service/", restartHandler)
+	http.HandleFunc("/restart-webhook/", restartHandler)
 	log.Println("Webhook server listening on :3001")
 	log.Fatal(http.ListenAndServe(":3001", nil))
 }
