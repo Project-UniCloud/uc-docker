@@ -22,7 +22,7 @@ jobs:
       - name: Build binary (Linux AMD64)
         run: |
           mkdir -p dist
-          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o dist/webhook main.go
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o dist/webhook ./restart-webhook/main.go
 
       - name: Generate SHA256 checksum
         run: |
