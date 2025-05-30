@@ -1,11 +1,5 @@
 dev.unicloud.projektstudencki.pl {
-  reverse_proxy frontend:3000
-}
-
-dev.unicloud.projektstudencki.pl/api/* {
-  reverse_proxy backend:8080
-}
-
-dev.unicloud.projektstudencki.pl/restart-webhook* {
-  reverse_proxy localhost:3001
+  reverse_proxy /restart-webhook* localhost:3001
+  reverse_proxy /api/* backend:8080
+  reverse_proxy / frontend:3000
 }
