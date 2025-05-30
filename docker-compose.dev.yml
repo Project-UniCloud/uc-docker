@@ -1,23 +1,4 @@
 services:
-  chisel:
-    image: jpillora/chisel
-    command: server --reverse --port 8000
-    networks:
-      - uc-network
-
-  caddy:
-    image: caddy:2
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
-    networks:
-      - uc-network
-    restart: always
-
   backend:
     environment:
       JAVA_TOOL_OPTIONS: "-Xmx512m"
@@ -30,10 +11,6 @@ services:
   frontend:
     environment:
       NEXT_PUBLIC_API_URL: "https://dev.unicloud.projektstudencki.pl/api"
-
-volumes:
-  caddy_data:
-  caddy_config:
 
 networks:
   uc-network:
