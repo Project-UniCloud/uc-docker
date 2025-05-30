@@ -73,21 +73,21 @@ func restartHandler(w http.ResponseWriter, r *http.Request) {
 	devComposeFile := repoDir + "/docker-compose.dev.yml"
 
 	baseArgs := []string{
-		"--preserve-env", "docker", "compose",
+		"compose",
 		"--env-file", envFile,
 		"-f", composeFile,
 		"-f", devComposeFile,
 	}
 
 	// docker compose down [service]
-	cmdDown := exec.Command("sudo", append(baseArgs, "down", service)...)
+	cmdDown := exec.Command("docker", append(baseArgs, "down", service)...)
 	if err := runCommand(cmdDown); err != nil {
 		http.Error(w, "Docker down failed: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	// docker compose up -d [service]
-	cmdUp := exec.Command("sudo", append(baseArgs, "up", "-d", service)...)
+	cmdUp := exec.Command("docker", append(baseArgs, "up", "-d", service)...)
 	if err := runCommand(cmdUp); err != nil {
 		http.Error(w, "Docker up failed: "+err.Error(), http.StatusInternalServerError)
 		return
