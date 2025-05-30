@@ -8,4 +8,5 @@ unicloud.projektstudencki.pl {
     }
 
     reverse_proxy localhost:3000
+    log
 }
