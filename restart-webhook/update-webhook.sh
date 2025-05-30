@@ -1,7 +1,8 @@
 #!/bin/bash
 
-REPO="Project-UniCloud/uc-docker"
+set -e
 
+REPO="Project-UniCloud/uc-docker"
 API_URL="https://api.github.com/repos/$REPO/releases/latest"
 
 echo "Pobieram najnowszy tag release z GitHub..."
@@ -16,30 +17,32 @@ fi
 echo "Najnowszy tag release: $VERSION"
 
 BASE_URL="https://github.com/$REPO/releases/download/$VERSION"
-
 INSTALL_DIR="/usr/local/bin"
 
-echo "Pobieram pliki z release..."
+TMP_DIR=$(mktemp -d)
+echo "Pobieram pliki z release do $TMP_DIR..."
 
-curl -L -o "$INSTALL_DIR/webhook-restart" "$BASE_URL/webhook-restart"
-curl -L -o "$INSTALL_DIR/webhook-restart.sha256" "$BASE_URL/webhook-restart.sha256"
+curl -L -o "$TMP_DIR/webhook-restart" "$BASE_URL/webhook-restart"
+curl -L -o "$TMP_DIR/webhook-restart.sha256" "$BASE_URL/webhook-restart.sha256"
 
 echo "Weryfikuję sumę kontrolną..."
-
-cd $INSTALL_DIR
-sha256sum -c webhook-restart.sha256
-
-if [ $? -ne 0 ]; then
+(cd "$TMP_DIR" && sha256sum -c webhook-restart.sha256) || {
   echo "Błąd: suma kontrolna nie pasuje!"
+  rm -rf "$TMP_DIR"
   exit 1
-fi
+}
 
-chmod +x webhook-restart
+echo "Kopiuję plik do $INSTALL_DIR (wymaga sudo)..."
+sudo mv "$TMP_DIR/webhook-restart" "$INSTALL_DIR/webhook-restart"
+sudo chmod +x "$INSTALL_DIR/webhook-restart"
 
-echo "Uruchamiam webhook-restart..."
+rm -rf "$TMP_DIR"
 
-pkill webhook-restart || true
+echo "Restartuję usługę systemd webhook-restart..."
 
-nohup ./webhook-restart > /var/log/webhook-restart.log 2>&1 &
+sudo systemctl daemon-reload
+sudo systemctl enable webhook-restart
+sudo systemctl restart webhook-restart
+sudo systemctl status webhook-restart --no-pager
 
-echo "Webhook-restart został uruchomiony."
+echo "Webhook-restart został uruchomiony i jest gotowy."
