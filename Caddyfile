@@ -1,0 +1,7 @@
+dev.unicloud.projektstudencki.pl {
+  reverse_proxy frontend:3000
+}
+
+dev.unicloud.projektstudencki.pl/api/* {
+  reverse_proxy backend:8080
+}

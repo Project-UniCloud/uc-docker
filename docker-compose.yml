@@ -1,29 +1,13 @@
 services:
-  database-postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: unicloud
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-    ports:
-      - "5432:5432"
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    networks:
-      - uc-network
   backend:
+    pull_policy: always
     image: ghcr.io/project-unicloud/uc-backend:latest
     ports:
       - "8080:8080"
-      - "5005:5005"
     networks:
       - uc-network
-    depends_on:
-      - database-postgres
-    environment:
-      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
-      POSTGRES_HOST: database-postgres
   frontend:
+    pull_policy: always
     image: ghcr.io/project-unicloud/uc-frontend:latest
     ports:
       - "3000:3000"
@@ -31,6 +15,7 @@ services:
       - uc-network
   adapter-aws:
     image: ghcr.io/project-unicloud/uc-adapter-aws:latest
+    pull_policy: always
     ports:
       - "50051:50051"
     networks:

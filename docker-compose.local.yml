@@ -1,0 +1,27 @@
+services:
+  backend:
+    depends_on:
+      - database-postgres
+    ports:
+      - "5005:5005"
+    environment:
+      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+      POSTGRES_HOST: database-postgres
+
+  database-postgres:
+    pull_policy: always
+    image: postgres:15
+    environment:
+      POSTGRES_DB: unicloud
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - uc-network
+
+networks:
+  uc-network:
+    external: true
