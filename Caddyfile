@@ -5,3 +5,7 @@ dev.unicloud.projektstudencki.pl {
 dev.unicloud.projektstudencki.pl/api/* {
   reverse_proxy backend:8080
 }
+
+ssh.unicloud.projektstudencki.pl {
+  reverse_proxy chisel:8000
+}

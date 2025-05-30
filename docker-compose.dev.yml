@@ -1,4 +1,10 @@
 services:
+  chisel:
+    image: jpillora/chisel
+    command: server --reverse --port 8000
+    networks:
+      - uc-network
+
   caddy:
     image: caddy:2
     ports:
