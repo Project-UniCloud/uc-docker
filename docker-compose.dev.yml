@@ -13,5 +13,9 @@ services:
       DEFAULT_LECTURER_PASSWORD: ${DEFAULT_LECTURER_PASSWORD}
       SPRING_PROFILES_ACTIVE: dev
 
+  uc-frontend:
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: https://unicloud.projektstudencki.pl/api
+
 networks:
   uc-network:
