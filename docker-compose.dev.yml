@@ -13,9 +13,5 @@ services:
       DEFAULT_LECTURER_PASSWORD: ${DEFAULT_LECTURER_PASSWORD}
       SPRING_PROFILES_ACTIVE: dev
 
-  uc-frontend:
-    environment:
-      NODE_ENV: dev
-
 networks:
   uc-network:
