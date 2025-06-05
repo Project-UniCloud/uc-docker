@@ -93,6 +93,12 @@ func restartHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// 🧹 Czyszczenie nieużywanych obrazów po uruchomieniu
+	cmdPrune := exec.Command("docker", "image", "prune", "-af")
+	if err := runCommand(cmdPrune); err != nil {
+		log.Printf("Warning: image prune failed: %v", err)
+	}
+
 	msg := fmt.Sprintf("Service %s restarted successfully", service)
 	w.Write([]byte(msg))
 }
