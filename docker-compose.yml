@@ -18,6 +18,9 @@ services:
   uc-adapter-aws:
     container_name: uc-adapter-aws
     image: ghcr.io/project-unicloud/uc-adapter-aws:latest
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
     pull_policy: always
     ports:
       - "50051:50051"
