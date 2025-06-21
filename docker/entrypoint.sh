@@ -9,4 +9,5 @@ keytool -import -noprompt \
   -storepass changeit
 
 echo "[INFO] Starting Spring Boot application..."
-exec java -jar /app/app.jar
+
+exec su-exec appuser java -jar /app/app.jar

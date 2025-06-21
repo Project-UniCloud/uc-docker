@@ -9,6 +9,7 @@ services:
       - ./docker/ldap-cert.pem:/tmp/ldap-cert.pem
       - ./docker/entrypoint.sh:/entrypoint.sh
     entrypoint: [ "/entrypoint.sh" ]
+    user: root
     ports:
       - "8080:8080"
       - "5005:5005"
