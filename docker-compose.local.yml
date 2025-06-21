@@ -3,7 +3,6 @@ services:
     depends_on:
       - database-postgres
     environment:
-      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
       POSTGRES_HOST: database-postgres
       ADAPTER_AWS_HOST: uc-adapter-aws
 

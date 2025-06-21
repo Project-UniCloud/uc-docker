@@ -3,6 +3,8 @@ services:
     container_name: uc-backend
     pull_policy: always
     image: ghcr.io/project-unicloud/uc-backend:latest
+    environment:
+      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
     ports:
       - "8080:8080"
       - "5005:5005"
