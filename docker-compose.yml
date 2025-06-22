@@ -15,6 +15,8 @@ services:
       - "5005:5005"
     networks:
       - uc-network
+    depends_on:
+      - uc-adapter-aws
   uc-frontend:
     container_name: uc-frontend
     pull_policy: always
