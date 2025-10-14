@@ -4,11 +4,13 @@ unicloud.projektstudencki.pl {
             header_up *
         }
     }
+    reverse_proxy 127.0.0.1:3000
+    log
+}
 
+unicloud.projektstudencki.pl:8443 {
     route /restart-webhook* {
         reverse_proxy 127.0.0.1:3001
     }
-
-    reverse_proxy 127.0.0.1:3000
-    log
+    respond 404
 }
