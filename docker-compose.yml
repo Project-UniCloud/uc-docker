@@ -17,6 +17,7 @@ services:
       - uc-network
     depends_on:
       - uc-adapter-aws
+      - mailhog
   uc-frontend:
     container_name: uc-frontend
     pull_policy: always
@@ -36,6 +37,12 @@ services:
       - "50051:50051"
     networks:
       - uc-network
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
 
 volumes:
   db-data:
