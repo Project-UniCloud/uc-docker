@@ -13,6 +13,6 @@ unicloud.projektstudencki.pl {
     log
 }
 
-:8025 {
+unicloud.projektstudencki.pl:8025 {
     reverse_proxy localhost:8025
 }
