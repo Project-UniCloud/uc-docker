@@ -10,11 +10,7 @@ unicloud.projektstudencki.pl {
     }
 
     handle_path /mailhog* {
-        reverse_proxy 127.0.0.1:8025 {
-            transport http {
-                versions h2c 1.1
-            }
-        }
+        reverse_proxy localhost:8025
     }
 
     reverse_proxy 127.0.0.1:3000
