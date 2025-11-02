@@ -13,7 +13,7 @@ unicloud.projektstudencki.pl {
         uri strip_prefix /mailhog
         handle_path /mailhog* {
             reverse_proxy 127.0.0.1:8025
-            header_up *
+            header_up Host {http.reverse_proxy.upstream.hostport}
         }
     }
 
