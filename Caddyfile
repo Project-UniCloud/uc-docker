@@ -9,7 +9,7 @@ unicloud.projektstudencki.pl {
         reverse_proxy 127.0.0.1:3001
     }
 
-    route /mailhog {
+    route /mailhog* {
         reverse_proxy 127.0.0.1:8025
     }
 
