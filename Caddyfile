@@ -9,12 +9,11 @@ unicloud.projektstudencki.pl {
         reverse_proxy 127.0.0.1:3001
     }
 
-    handle_path /mailhog* {
+    handle /mailhog* {
         reverse_proxy 127.0.0.1:8025
-        @assets {
-            path_regexp assets ^/mailhog/(.*)$
+        transport http {
+            versions h2c 1.1
         }
-        rewrite @assets /{http.regexp.assets.1}
     }
 
     reverse_proxy 127.0.0.1:3000
