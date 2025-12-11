@@ -5,6 +5,7 @@ services:
     environment:
       POSTGRES_HOST: database-postgres
       ADAPTER_AWS_HOST: uc-adapter-aws
+      MAIL_HOST: mailhog
 
   database-postgres:
     pull_policy: always
