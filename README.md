@@ -15,18 +15,11 @@ But docker engine with docker compose is enough.
     mkdir uc-project
     cd ud-project
     ```
-2. Clone repositories
-    ```shell
-    git clone https://github.com/Project-UniCloud/uc-frontend
-    git clone --recurse-submodules https://github.com/Project-UniCloud/uc-backend
-    git clone --recurse-submodules https://github.com/Project-UniCloud/uc-adapter-aws
-    git clone https://github.com/Project-UniCloud/uc-docker
-    ```
-3. Go to uc-docker project
+2. Go to uc-docker project
    ```shell
    cd uc-docker
    ```
-4. Run containers
+3. Run containers
    ```shell
    docker-compose up -d
    ```
