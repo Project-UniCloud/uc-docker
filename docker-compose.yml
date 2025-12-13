@@ -1,53 +1,79 @@
 services:
   uc-backend:
     container_name: uc-backend
-    pull_policy: always
     image: ghcr.io/project-unicloud/uc-backend:latest
     environment:
-      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+      JAVA_TOOL_OPTIONS: ${JAVA_TOOL_OPTIONS:--agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx512m}
+      POSTGRES_HOST: ${POSTGRES_HOST:-database-postgres}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      POSTGRES_DB: ${POSTGRES_DB:-unicloud}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_USER: ${POSTGRES_USER:-user}
+      ORIGIN: ${ORIGIN:-localhost:3000}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-}
+      ADAPTER_AWS_HOST: ${ADAPTER_AWS_HOST-uc-adapter-aws}
+      MAIL_HOST: ${MAIL_HOST:-mailhog}
+      MAIL_PORT: ${MAIL_PORT:-1025}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_SMTP_AUTH: ${MAIL_SMTP_AUTH:-false}
+      MAIL_SMTP_STARTTLS: ${MAIL_SMTP_STARTTLS:-false}
+      BACKEND_PORT: ${BACKEND_PORT:-8008}
+      BACKEND_DEBUG_PORT: ${BACKEND_DEBUG_PORT:-5005}
+      LDAP_CERT_PATH: ${LDAP_CERT_PATH:-/app/config/ldap-cert.pem}
+      JWT_EXPIRATION_TIME_IN_MS: ${JWT_EXPIRATION_TIME_IN_MS:-3600000}
+      JWT_SECRET: ${JWT_SECRET:-08f3bc2248e6b3473e9008c184751932}
     volumes:
-      - ./docker/ldap-cert.pem:/tmp/ldap-cert.pem
-      - ./docker/entrypoint.sh:/entrypoint.sh
-    entrypoint: [ "/entrypoint.sh" ]
-    user: root
+      - ./ldap/ldap-cert.pem:/app/config/ldap-cert.pem:ro
     ports:
-      - "8080:8080"
-      - "5005:5005"
-    networks:
-      - uc-network
+      - "${BACKEND_PORT:-8080}:8080"
+      - "${BACKEND_DEBUG_PORT:-5005}:5005"
     depends_on:
       - uc-adapter-aws
-      - mailhog
   uc-frontend:
     container_name: uc-frontend
-    pull_policy: always
     image: ghcr.io/project-unicloud/uc-frontend:latest
     ports:
-      - "3000:3000"
-    networks:
-      - uc-network
+      - "${FRONTEND_PORT:-3000}:3000"
   uc-adapter-aws:
     container_name: uc-adapter-aws
     image: ghcr.io/project-unicloud/uc-adapter-aws:latest
     environment:
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-    pull_policy: always
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
     ports:
-      - "50051:50051"
-    networks:
-      - uc-network
+      - "${AWS_ADAPTER_PORT:-50051}:50051"
+  uc-adapter-azure:
+    container_name: uc-adapter-azure
+    image: ghcr.io/project-unicloud/uc-adapter-azure:latest
+    environment:
+      AZURE_TENANT_ID: ${AZURE_TENANT_ID}
+      AZURE_CLIENT_ID: ${AZURE_CLIENT_ID}
+      AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET}
+      AZURE_SUBSCRIPTION_ID: ${AZURE_SUBSCRIPTION_ID}
+      AZURE_DEFAULT_RESOURCE_GROUP: ${AZURE_DEFAULT_RESOURCE_GROUP}
+      AZURE_DEFAULT_REGION: ${AZURE_DEFAULT_REGION}
+      AZURE_UDOMAIN: ${AZURE_UDOMAIN}
+    ports:
+      - "${AZURE_ADAPTER_PORT:-50053}:50053"
   mailhog:
+    profiles: ["local", "dev"]
     container_name: mailhog
     image: mailhog/mailhog
     ports:
       - "8025:8025"
       - "1025:1025"
-    networks:
-      - uc-network
+  database-postgres:
+    profiles: ["local"]
+    image: postgres:15
+    environment:
+      POSTGRES_DB: unicloud
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
 
 volumes:
   db-data:
-
-networks:
-  uc-network:

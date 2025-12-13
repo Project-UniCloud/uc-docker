@@ -26,9 +26,10 @@ func init() {
 }
 
 var allowedServices = map[string]bool{
-	"uc-backend":     true,
-	"uc-frontend":    true,
-	"uc-adapter-aws": true,
+	"uc-backend":       true,
+	"uc-frontend":      true,
+	"uc-adapter-aws":   true,
+	"uc-adapter-azure": true,
 }
 
 func runCommand(cmd *exec.Cmd) error {
