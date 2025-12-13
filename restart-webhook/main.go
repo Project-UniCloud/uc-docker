@@ -70,14 +70,10 @@ func restartHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	envFile := repoDir + "/.env"
-	composeFile := repoDir + "/docker-compose.yml"
-	devComposeFile := repoDir + "/docker-compose.dev.yml"
 
 	baseArgs := []string{
 		"compose",
 		"--env-file", envFile,
-		"-f", composeFile,
-		"-f", devComposeFile,
 	}
 
 	// docker compose down [service]
