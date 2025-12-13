@@ -101,7 +101,12 @@ func restartHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	msg := fmt.Sprintf("Service %s restarted successfully", service)
-	w.Write([]byte(msg))
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+	if _, err := w.Write([]byte(msg + "\n")); err != nil {
+		log.Printf("failed to write response: %v", err)
+		return
+	}
 }
 
 func main() {
