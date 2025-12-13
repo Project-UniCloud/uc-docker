@@ -9,7 +9,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-unicloud}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
       POSTGRES_USER: ${POSTGRES_USER:-user}
-      ORIGIN: ${ORIGIN:-localhost:3000}
+      ORIGIN: ${ORIGIN:-http://localhost:3000}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-}
       ADAPTER_AWS_HOST: ${ADAPTER_AWS_HOST-uc-adapter-aws}
       MAIL_HOST: ${MAIL_HOST:-mailhog}
@@ -22,7 +22,7 @@ services:
       BACKEND_DEBUG_PORT: ${BACKEND_DEBUG_PORT:-5005}
       LDAP_CERT_PATH: ${LDAP_CERT_PATH:-/app/config/ldap-cert.pem}
       JWT_EXPIRATION_TIME_IN_MS: ${JWT_EXPIRATION_TIME_IN_MS:-3600000}
-      JWT_SECRET: ${JWT_SECRET:-08f3bc2248e6b3473e9008c184751932}
+      JWT_SECRET: ${JWT_SECRET:-80665a9679b324621f032be60e72912be9db6724ea5fae55f5639a36ec202c60}
     volumes:
       - ./ldap/ldap-cert.pem:/app/config/ldap-cert.pem:ro
     ports:
