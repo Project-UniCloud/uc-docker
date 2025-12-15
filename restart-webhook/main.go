@@ -62,13 +62,6 @@ func restartHandler(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("Restarting service: %s", service)
 
-	// Git pull
-	cmdGit := exec.Command("git", "-C", repoDir, "pull")
-	if err := runCommand(cmdGit); err != nil {
-		http.Error(w, "Git pull failed: "+err.Error(), http.StatusInternalServerError)
-		return
-	}
-
 	envFile := repoDir + "/.env"
 
 	baseArgs := []string{
