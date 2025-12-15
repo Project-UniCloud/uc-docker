@@ -11,7 +11,6 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-user}
       ORIGIN: ${ORIGIN:-http://localhost:3000}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-}
-      ADAPTER_AWS_HOST: ${ADAPTER_AWS_HOST-uc-adapter-aws}
       MAIL_HOST: ${MAIL_HOST:-mailhog}
       MAIL_PORT: ${MAIL_PORT:-1025}
       MAIL_USERNAME: ${MAIL_USERNAME:-}
