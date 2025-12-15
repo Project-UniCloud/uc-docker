@@ -83,6 +83,13 @@ func restartHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// docker compose pull [service]
+	cmdPull := exec.Command("docker", append(baseArgs, "pull", service)...)
+	if err := runCommand(cmdPull); err != nil {
+		http.Error(w, "Docker pull failed: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	// docker compose up -d [service]
 	cmdUp := exec.Command("docker", append(baseArgs, "up", "-d", service)...)
 	if err := runCommand(cmdUp); err != nil {
