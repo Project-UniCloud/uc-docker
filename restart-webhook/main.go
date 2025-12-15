@@ -72,6 +72,7 @@ func restartHandler(w http.ResponseWriter, r *http.Request) {
 
 	// docker compose down [service]
 	cmdDown := exec.Command("docker", append(baseArgs, "down", service)...)
+	cmdDown.Dir = repoDir
 	if err := runCommand(cmdDown); err != nil {
 		http.Error(w, "Docker down failed: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -79,6 +80,7 @@ func restartHandler(w http.ResponseWriter, r *http.Request) {
 
 	// docker compose pull [service]
 	cmdPull := exec.Command("docker", append(baseArgs, "pull", service)...)
+	cmdPull.Dir = repoDir
 	if err := runCommand(cmdPull); err != nil {
 		http.Error(w, "Docker pull failed: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -86,6 +88,7 @@ func restartHandler(w http.ResponseWriter, r *http.Request) {
 
 	// docker compose up -d [service]
 	cmdUp := exec.Command("docker", append(baseArgs, "up", "-d", service)...)
+	cmdUp.Dir = repoDir
 	if err := runCommand(cmdUp); err != nil {
 		http.Error(w, "Docker up failed: "+err.Error(), http.StatusInternalServerError)
 		return
@@ -93,6 +96,7 @@ func restartHandler(w http.ResponseWriter, r *http.Request) {
 
 	// 🧹 Czyszczenie nieużywanych obrazów po uruchomieniu
 	cmdPrune := exec.Command("docker", "image", "prune", "-af")
+	cmdPrune.Dir = repoDir
 	if err := runCommand(cmdPrune); err != nil {
 		log.Printf("Warning: image prune failed: %v", err)
 	}
