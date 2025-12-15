@@ -74,6 +74,7 @@ func restartHandler(w http.ResponseWriter, r *http.Request) {
 	baseArgs := []string{
 		"compose",
 		"--env-file", envFile,
+		"--profile", "dev",
 	}
 
 	// docker compose down [service]
