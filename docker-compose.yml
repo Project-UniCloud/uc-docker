@@ -22,6 +22,7 @@ services:
       LDAP_CERT_PATH: ${LDAP_CERT_PATH:-/app/config/ldap-cert.pem}
       JWT_EXPIRATION_TIME_IN_MS: ${JWT_EXPIRATION_TIME_IN_MS:-3600000}
       JWT_SECRET: ${JWT_SECRET:-80665a9679b324621f032be60e72912be9db6724ea5fae55f5639a36ec202c60}
+      COST_SYNC_CRON: ${COST_SYNC_CRON:-0 */10 * * * *}
     volumes:
       - ./ldap/ldap-cert.pem:/app/config/ldap-cert.pem:ro
     ports:
