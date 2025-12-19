@@ -23,6 +23,8 @@ services:
       JWT_EXPIRATION_TIME_IN_MS: ${JWT_EXPIRATION_TIME_IN_MS:-3600000}
       JWT_SECRET: ${JWT_SECRET:-80665a9679b324621f032be60e72912be9db6724ea5fae55f5639a36ec202c60}
       COST_SYNC_CRON: ${COST_SYNC_CRON:-0 */10 * * * *}
+      AUTH_COOKIE_SECURE: ${AUTH_COOKIE_SECURE:-false}
+      AUTH_SAME_SITE: ${AUTH_SAME_SITE:-lax}
     volumes:
       - ./ldap/ldap-cert.pem:/app/config/ldap-cert.pem:ro
     ports:
