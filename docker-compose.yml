@@ -35,6 +35,8 @@ services:
     image: ghcr.io/project-unicloud/uc-frontend:latest
     ports:
       - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      BACKEND_URL: ${BACKEND_URL:-http://localhost:8080}
   uc-adapter-aws:
     container_name: uc-adapter-aws
     image: ghcr.io/project-unicloud/uc-adapter-aws:latest
