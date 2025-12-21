@@ -1,5 +1,5 @@
 unicloud.projektstudencki.pl {
-    tls /etc/ssl/certs/unicloud.crt /etc/ssl/private/unicloud.key
+    tls /var/lib/caddy/.ssl/unicloud.crt /var/lib/caddy/.ssl/unicloud.key
 
     route /api* {
         reverse_proxy 127.0.0.1:8080 {
