@@ -25,6 +25,7 @@ services:
       COST_SYNC_CRON: ${COST_SYNC_CRON:-0 */10 * * * *}
       AUTH_COOKIE_SECURE: ${AUTH_COOKIE_SECURE:-false}
       AUTH_SAME_SITE: ${AUTH_SAME_SITE:-lax}
+      AUTH_ADMINS: ${AUTH_ADMINS:-}
     volumes:
       - ./ldap/ldap-cert.pem:/app/config/ldap-cert.pem:ro
     ports:
